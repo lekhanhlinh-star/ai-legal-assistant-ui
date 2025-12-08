@@ -11,22 +11,37 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
+import { Conversation } from "@/types/chat";
+import ConversationHistory from "./ConversationHistory";
 
 interface SidebarItem {
   id: string;
   icon: React.ElementType;
   label: string;
-  active?: boolean;
 }
 
 interface AppSidebarProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
+  conversations: Conversation[];
+  activeConversationId: string | null;
+  onSelectConversation: (id: string) => void;
+  onDeleteConversation: (id: string) => void;
+  onNewConversation: () => void;
 }
 
-const AppSidebar = ({ activeTab, onTabChange }: AppSidebarProps) => {
+const AppSidebar = ({
+  activeTab,
+  onTabChange,
+  conversations,
+  activeConversationId,
+  onSelectConversation,
+  onDeleteConversation,
+  onNewConversation,
+}: AppSidebarProps) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const navigate = useNavigate();
 
@@ -38,6 +53,16 @@ const AppSidebar = ({ activeTab, onTabChange }: AppSidebarProps) => {
 
   const handleLogout = () => {
     navigate("/auth");
+  };
+
+  const handleNewConversation = () => {
+    onNewConversation();
+    onTabChange("chat");
+  };
+
+  const handleSelectConversation = (id: string) => {
+    onSelectConversation(id);
+    onTabChange("chat");
   };
 
   return (
@@ -111,6 +136,7 @@ const AppSidebar = ({ activeTab, onTabChange }: AppSidebarProps) => {
       {/* Action Buttons */}
       <div className="px-4 space-y-2">
         <Button
+          onClick={handleNewConversation}
           className={cn(
             "w-full bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl gap-2 justify-start transition-all",
             isCollapsed && "justify-center px-0"
@@ -122,7 +148,7 @@ const AppSidebar = ({ activeTab, onTabChange }: AppSidebarProps) => {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 p-4 overflow-y-auto">
+      <nav className="px-4 py-3">
         <div className="space-y-1">
           {menuItems.map((item) => (
             <Button
@@ -143,6 +169,19 @@ const AppSidebar = ({ activeTab, onTabChange }: AppSidebarProps) => {
           ))}
         </div>
       </nav>
+
+      {/* Conversation History */}
+      <div className="flex-1 overflow-hidden px-4 pb-4">
+        <ScrollArea className="h-full">
+          <ConversationHistory
+            conversations={conversations}
+            activeId={activeConversationId}
+            isCollapsed={isCollapsed}
+            onSelect={handleSelectConversation}
+            onDelete={onDeleteConversation}
+          />
+        </ScrollArea>
+      </div>
 
       {/* Footer */}
       <div className="flex-shrink-0 p-4 border-t border-sidebar-border">

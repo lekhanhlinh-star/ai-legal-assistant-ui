@@ -4,13 +4,7 @@ import ChatInput from "./ChatInput";
 import TypingIndicator from "./TypingIndicator";
 import SuggestedQuestions from "./SuggestedQuestions";
 import { Scale } from "lucide-react";
-
-interface Message {
-  id: string;
-  content: string;
-  isUser: boolean;
-  timestamp: string;
-}
+import { Message, Conversation } from "@/types/chat";
 
 const suggestedQuestions = [
   "Thủ tục thành lập doanh nghiệp như thế nào?",
@@ -19,10 +13,16 @@ const suggestedQuestions = [
   "Quyền và nghĩa vụ của người tiêu dùng?",
 ];
 
-const ChatArea = () => {
-  const [messages, setMessages] = useState<Message[]>([]);
+interface ChatAreaProps {
+  conversation: Conversation | null;
+  onSendMessage: (message: Message) => void;
+}
+
+const ChatArea = ({ conversation, onSendMessage }: ChatAreaProps) => {
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const messages = conversation?.messages || [];
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -43,7 +43,7 @@ const ChatArea = () => {
       }),
     };
 
-    setMessages((prev) => [...prev, userMessage]);
+    onSendMessage(userMessage);
     setIsTyping(true);
 
     // Simulate AI response
@@ -58,7 +58,7 @@ const ChatArea = () => {
           minute: "2-digit",
         }),
       };
-      setMessages((prev) => [...prev, aiMessage]);
+      onSendMessage(aiMessage);
     }, 2000);
   };
 
@@ -70,7 +70,9 @@ const ChatArea = () => {
     <div className="flex flex-col h-full bg-background">
       {/* Header */}
       <div className="flex-shrink-0 px-6 py-4 border-b border-border/50 bg-card/50 backdrop-blur-sm">
-        <h2 className="text-lg font-semibold text-foreground">Trò chuyện</h2>
+        <h2 className="text-lg font-semibold text-foreground">
+          {conversation?.title || "Trò chuyện"}
+        </h2>
         <p className="text-sm text-muted-foreground">
           Đặt câu hỏi về tài liệu pháp lý của bạn
         </p>
