@@ -3,49 +3,26 @@ import DocumentCard from "./DocumentCard";
 import DocumentUpload from "./DocumentUpload";
 import { FileText, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Document } from "@/types/chat";
 
-interface Document {
-  id: string;
-  name: string;
-  pages: number;
-  dateAdded: string;
-  size: string;
+interface DocumentListProps {
+  documents: Document[];
+  onDocumentsChange: (documents: Document[]) => void;
 }
 
-const initialDocuments: Document[] = [
-  {
-    id: "1",
-    name: "Hợp đồng lao động mẫu 2024.pdf",
-    pages: 12,
-    dateAdded: "15/01/2024",
-    size: "2.4 MB",
-  },
-  {
-    id: "2",
-    name: "Luật Doanh nghiệp 2020.pdf",
-    pages: 85,
-    dateAdded: "12/01/2024",
-    size: "8.1 MB",
-  },
-  {
-    id: "3",
-    name: "Quy định bảo hộ SHTT.pdf",
-    pages: 34,
-    dateAdded: "10/01/2024",
-    size: "3.7 MB",
-  },
-];
-
-const DocumentList = () => {
-  const [documents, setDocuments] = useState<Document[]>(initialDocuments);
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+const DocumentList = ({ documents, onDocumentsChange }: DocumentListProps) => {
   const [showUpload, setShowUpload] = useState(false);
 
   const handleDelete = (id: string) => {
-    setDocuments((prev) => prev.filter((doc) => doc.id !== id));
-    if (selectedId === id) {
-      setSelectedId(null);
-    }
+    onDocumentsChange(documents.filter((doc) => doc.id !== id));
+  };
+
+  const handleCheckChange = (id: string, checked: boolean) => {
+    onDocumentsChange(
+      documents.map((doc) =>
+        doc.id === id ? { ...doc, isChecked: checked } : doc
+      )
+    );
   };
 
   const handleUploadComplete = (file: { name: string; pages: number }) => {
@@ -55,8 +32,9 @@ const DocumentList = () => {
       pages: file.pages,
       dateAdded: new Date().toLocaleDateString("vi-VN"),
       size: (Math.random() * 10 + 1).toFixed(1) + " MB",
+      isChecked: true,
     };
-    setDocuments((prev) => [newDoc, ...prev]);
+    onDocumentsChange([newDoc, ...documents]);
   };
 
   return (
@@ -119,8 +97,8 @@ const DocumentList = () => {
                 pages={doc.pages}
                 dateAdded={doc.dateAdded}
                 size={doc.size}
-                isSelected={selectedId === doc.id}
-                onSelect={() => setSelectedId(doc.id)}
+                isChecked={doc.isChecked}
+                onCheckChange={(checked) => handleCheckChange(doc.id, checked)}
                 onDelete={() => handleDelete(doc.id)}
               />
             ))}
