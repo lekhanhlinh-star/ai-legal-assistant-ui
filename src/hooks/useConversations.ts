@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { Conversation, Message } from "@/types/chat";
+import { Conversation, Message, Document } from "@/types/chat";
 
 const initialConversations: Conversation[] = [
   {
@@ -26,6 +26,16 @@ const initialConversations: Conversation[] = [
         content: "Cảm ơn bạn đã giải đáp",
         isUser: true,
         timestamp: "14:30",
+      },
+    ],
+    documents: [
+      {
+        id: "1-doc-1",
+        name: "Hợp đồng lao động mẫu 2024.pdf",
+        pages: 12,
+        dateAdded: "15/01/2024",
+        size: "2.4 MB",
+        isChecked: true,
       },
     ],
   },
@@ -55,6 +65,24 @@ const initialConversations: Conversation[] = [
         timestamp: "10:20",
       },
     ],
+    documents: [
+      {
+        id: "2-doc-1",
+        name: "Luật Doanh nghiệp 2020.pdf",
+        pages: 85,
+        dateAdded: "12/01/2024",
+        size: "8.1 MB",
+        isChecked: true,
+      },
+      {
+        id: "2-doc-2",
+        name: "Bộ luật Lao động 2019.pdf",
+        pages: 120,
+        dateAdded: "10/01/2024",
+        size: "5.2 MB",
+        isChecked: false,
+      },
+    ],
   },
   {
     id: "3",
@@ -82,6 +110,16 @@ const initialConversations: Conversation[] = [
         timestamp: "09:05",
       },
     ],
+    documents: [
+      {
+        id: "3-doc-1",
+        name: "Quy định bảo hộ SHTT.pdf",
+        pages: 34,
+        dateAdded: "10/01/2024",
+        size: "3.7 MB",
+        isChecked: true,
+      },
+    ],
   },
 ];
 
@@ -106,6 +144,7 @@ export const useConversations = () => {
         minute: "2-digit",
       }),
       messages: [],
+      documents: [],
     };
     setConversations((prev) => [newConversation, ...prev]);
     setActiveConversationId(newConversation.id);
@@ -173,6 +212,18 @@ export const useConversations = () => {
     setActiveConversationId(null);
   }, []);
 
+  const updateDocuments = useCallback(
+    (documents: Document[]) => {
+      if (!activeConversationId) return;
+      setConversations((prev) =>
+        prev.map((c) =>
+          c.id === activeConversationId ? { ...c, documents } : c
+        )
+      );
+    },
+    [activeConversationId]
+  );
+
   return {
     conversations,
     activeConversation,
@@ -182,5 +233,6 @@ export const useConversations = () => {
     deleteConversation,
     addMessage,
     clearActiveConversation,
+    updateDocuments,
   };
 };

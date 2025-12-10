@@ -1,5 +1,6 @@
 import { FileText, Trash2, Download, Calendar, FileIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 
 interface DocumentCardProps {
@@ -7,8 +8,8 @@ interface DocumentCardProps {
   pages: number;
   dateAdded: string;
   size?: string;
-  isSelected?: boolean;
-  onSelect?: () => void;
+  isChecked?: boolean;
+  onCheckChange?: (checked: boolean) => void;
   onDelete?: () => void;
 }
 
@@ -17,21 +18,29 @@ const DocumentCard = ({
   pages,
   dateAdded,
   size = "2.4 MB",
-  isSelected,
-  onSelect,
+  isChecked = false,
+  onCheckChange,
   onDelete,
 }: DocumentCardProps) => {
   return (
     <div
       className={cn(
-        "group relative p-4 rounded-xl border transition-all duration-200 cursor-pointer",
-        isSelected
+        "group relative p-4 rounded-xl border transition-all duration-200",
+        isChecked
           ? "bg-primary/5 border-primary/30 shadow-soft"
           : "bg-card border-border/50 hover:border-accent/30 hover:shadow-soft"
       )}
-      onClick={onSelect}
     >
       <div className="flex items-start gap-3">
+        {/* Checkbox */}
+        <div className="flex-shrink-0 pt-0.5">
+          <Checkbox
+            checked={isChecked}
+            onCheckedChange={(checked) => onCheckChange?.(checked === true)}
+            className="data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+          />
+        </div>
+
         {/* Icon */}
         <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-destructive/10 flex items-center justify-center">
           <FileText className="w-5 h-5 text-destructive" />

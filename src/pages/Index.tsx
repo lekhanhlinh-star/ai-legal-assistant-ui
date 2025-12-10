@@ -4,7 +4,7 @@ import ChatArea from "@/components/chat/ChatArea";
 import DocumentList from "@/components/documents/DocumentList";
 import SettingsPanel from "@/components/settings/SettingsPanel";
 import { useConversations } from "@/hooks/useConversations";
-import { Message } from "@/types/chat";
+import { Message, Document } from "@/types/chat";
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState("chat");
@@ -17,11 +17,18 @@ const Index = () => {
     selectConversation,
     deleteConversation,
     addMessage,
+    updateDocuments,
   } = useConversations();
 
   const handleSendMessage = (message: Message) => {
     addMessage(message);
   };
+
+  const handleDocumentsChange = (documents: Document[]) => {
+    updateDocuments(documents);
+  };
+
+  const currentDocuments = activeConversation?.documents || [];
 
   const renderContent = () => {
     switch (activeTab) {
@@ -33,7 +40,12 @@ const Index = () => {
           />
         );
       case "documents":
-        return <DocumentList />;
+        return (
+          <DocumentList
+            documents={currentDocuments}
+            onDocumentsChange={handleDocumentsChange}
+          />
+        );
       case "settings":
         return <SettingsPanel />;
       default:
@@ -67,7 +79,10 @@ const Index = () => {
         {/* Document Panel (visible when chat is active) */}
         {activeTab === "chat" && (
           <div className="hidden lg:block w-80 xl:w-96 border-l border-border/50 overflow-hidden">
-            <DocumentList />
+            <DocumentList
+              documents={currentDocuments}
+              onDocumentsChange={handleDocumentsChange}
+            />
           </div>
         )}
       </main>
