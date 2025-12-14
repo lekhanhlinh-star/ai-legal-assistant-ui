@@ -3,8 +3,8 @@ import ChatMessage from "./ChatMessage";
 import ChatInput from "./ChatInput";
 import TypingIndicator from "./TypingIndicator";
 import SuggestedQuestions from "./SuggestedQuestions";
-import { Scale } from "lucide-react";
 import { Message, Conversation } from "@/types/chat";
+import legalAiHero from "@/assets/legal-ai-hero.png";
 
 const suggestedQuestions = [
   "Thủ tục thành lập doanh nghiệp như thế nào?",
@@ -82,8 +82,12 @@ const ChatArea = ({ conversation, onSendMessage }: ChatAreaProps) => {
       <div className="flex-1 overflow-y-auto px-6 py-4">
         {messages.length === 0 ? (
           <div className="h-full flex flex-col items-center justify-center text-center">
-            <div className="w-20 h-20 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
-              <Scale className="w-10 h-10 text-primary" />
+            <div className="w-32 h-32 rounded-full overflow-hidden mb-6 ring-4 ring-primary/20 shadow-lg">
+              <img 
+                src={legalAiHero} 
+                alt="Trợ Lý Pháp Lý AI" 
+                className="w-full h-full object-cover object-top"
+              />
             </div>
             <h3 className="text-xl font-semibold text-foreground mb-2">
               Chào mừng bạn!
