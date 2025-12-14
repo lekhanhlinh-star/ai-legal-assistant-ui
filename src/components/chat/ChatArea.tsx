@@ -81,20 +81,23 @@ const ChatArea = ({ conversation, onSendMessage }: ChatAreaProps) => {
       {/* Messages Area */}
       <div className="flex-1 overflow-y-auto px-6 py-4">
         {messages.length === 0 ? (
-          <div className="h-full flex flex-col items-center justify-center text-center">
-            <div className="w-32 h-32 rounded-full overflow-hidden mb-6 ring-4 ring-primary/20 shadow-lg">
+          <div className="h-full flex flex-col items-center justify-center text-center relative">
+            {/* Hero Image as Main Focus */}
+            <div className="relative w-full max-w-2xl mx-auto mb-8">
+              <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-10" />
               <img 
                 src={legalAiHero} 
                 alt="Trợ Lý Pháp Lý AI" 
-                className="w-full h-full object-cover object-top"
+                className="w-full h-auto rounded-2xl shadow-2xl animate-fade-in"
               />
             </div>
-            <h3 className="text-xl font-semibold text-foreground mb-2">
-              Chào mừng bạn!
+            
+            <h3 className="text-2xl font-bold text-foreground mb-3 animate-fade-in">
+              AI Ứng dụng trong ngành Luật
             </h3>
-            <p className="text-muted-foreground mb-8 max-w-md">
+            <p className="text-muted-foreground mb-8 max-w-lg text-base animate-fade-in">
               Hãy tải lên tài liệu PDF và đặt câu hỏi. Tôi sẽ giúp bạn phân tích
-              và trả lời các thắc mắc pháp lý.
+              và trả lời các thắc mắc pháp lý một cách nhanh chóng và chính xác.
             </p>
             <SuggestedQuestions
               questions={suggestedQuestions}
