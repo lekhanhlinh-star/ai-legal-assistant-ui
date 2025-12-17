@@ -6,7 +6,8 @@ import SuggestedQuestions from "./SuggestedQuestions";
 import { Message, Conversation } from "@/types/chat";
 import legalAiHero from "@/assets/legal-ai-hero.png";
 import chatBackground from "@/assets/chat-background.jpg";
-import { Scale, Sparkles } from "lucide-react";
+import logoVks from "@/assets/logo-vks.webp";
+import { Sparkles } from "lucide-react";
 
 const suggestedQuestions = [
   "Thủ tục thành lập doanh nghiệp như thế nào?",
@@ -77,16 +78,16 @@ const ChatArea = ({ conversation, onSendMessage }: ChatAreaProps) => {
       }}
     >
       {/* Dark overlay with gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-900/85 via-slate-900/75 to-blue-900/80" />
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-blue-900/85" />
       
       {/* Animated glow effects */}
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl animate-pulse-subtle" />
       <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl animate-pulse-subtle" style={{ animationDelay: '1s' }} />
 
-      {/* Logo góc phải trên */}
+      {/* Logo Viện Kiểm Sát góc phải trên */}
       <div className="absolute top-4 right-6 z-30">
-        <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-cyan-400/30 shadow-lg shadow-cyan-500/10">
-          <Scale className="h-5 w-5 text-cyan-400" />
+        <div className="flex items-center gap-3 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20 shadow-lg">
+          <img src={logoVks} alt="Logo Viện Kiểm Sát" className="h-8 w-8 object-contain" />
           <span className="text-sm font-semibold text-white">Viện Kiểm Sát</span>
         </div>
       </div>
@@ -109,7 +110,6 @@ const ChatArea = ({ conversation, onSendMessage }: ChatAreaProps) => {
                       alt="Trợ Lý Pháp Lý AI" 
                       className="w-full h-auto rounded-2xl shadow-2xl shadow-cyan-500/20 ring-1 ring-white/10 animate-fade-in"
                     />
-                    {/* Shimmer overlay */}
                     <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-transparent via-white/5 to-transparent" />
                   </div>
                 </div>
