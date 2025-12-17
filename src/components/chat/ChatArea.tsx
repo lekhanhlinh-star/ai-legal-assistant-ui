@@ -5,6 +5,7 @@ import TypingIndicator from "./TypingIndicator";
 import SuggestedQuestions from "./SuggestedQuestions";
 import { Message, Conversation } from "@/types/chat";
 import legalAiHero from "@/assets/legal-ai-hero.png";
+import { Scale } from "lucide-react";
 
 const suggestedQuestions = [
   "Thủ tục thành lập doanh nghiệp như thế nào?",
@@ -67,45 +68,56 @@ const ChatArea = ({ conversation, onSendMessage }: ChatAreaProps) => {
   };
 
   return (
-    <div className="flex flex-col h-full bg-background">
-      {/* Header */}
-      <div className="flex-shrink-0 px-6 py-4 border-b border-border/50 bg-card/50 backdrop-blur-sm">
-        <h2 className="text-lg font-semibold text-foreground">
-          {conversation?.title || "Trò chuyện"}
-        </h2>
-        <p className="text-sm text-muted-foreground">
-          Đặt câu hỏi về tài liệu pháp lý của bạn
-        </p>
+    <div className="flex flex-col h-full bg-gradient-to-br from-background via-background to-muted/20 relative">
+      {/* Logo góc phải trên */}
+      <div className="absolute top-4 right-6 z-20">
+        <div className="flex items-center gap-2 bg-primary/10 backdrop-blur-sm px-4 py-2 rounded-full border border-primary/20">
+          <Scale className="h-5 w-5 text-primary" />
+          <span className="text-sm font-semibold text-primary">Viện Kiểm Sát</span>
+        </div>
       </div>
 
       {/* Messages Area */}
       <div className="flex-1 overflow-y-auto px-6 py-4">
         {messages.length === 0 ? (
-          <div className="h-full flex flex-col items-center justify-center text-center relative">
-            {/* Hero Image as Main Focus */}
-            <div className="relative w-full max-w-2xl mx-auto mb-8">
-              <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-10" />
-              <img 
-                src={legalAiHero} 
-                alt="Trợ Lý Pháp Lý AI" 
-                className="w-full h-auto rounded-2xl shadow-2xl animate-fade-in"
-              />
+          <div className="h-full flex flex-col items-center justify-center relative">
+            <div className="w-full max-w-5xl mx-auto flex flex-col lg:flex-row items-center gap-8">
+              {/* Hero Image - Trung tâm */}
+              <div className="flex-1 flex flex-col items-center">
+                <div className="relative w-full max-w-xl mx-auto">
+                  <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 via-primary/10 to-primary/20 rounded-3xl blur-2xl" />
+                  <img 
+                    src={legalAiHero} 
+                    alt="Trợ Lý Pháp Lý AI" 
+                    className="relative w-full h-auto rounded-2xl shadow-2xl ring-1 ring-primary/20 animate-fade-in"
+                  />
+                </div>
+                
+                <h3 className="text-2xl font-bold text-foreground mt-6 mb-2 text-center animate-fade-in">
+                  AI Ứng dụng trong ngành Luật
+                </h3>
+                <p className="text-muted-foreground text-center max-w-md text-sm animate-fade-in">
+                  Hãy tải lên tài liệu PDF và đặt câu hỏi về các vấn đề pháp lý
+                </p>
+              </div>
+
+              {/* Kết quả / Gợi ý - Bên phải */}
+              <div className="w-full lg:w-80 flex-shrink-0">
+                <div className="bg-card/80 backdrop-blur-sm rounded-2xl border border-border/50 p-4 shadow-lg">
+                  <h4 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                    Kết quả gợi ý
+                  </h4>
+                  <SuggestedQuestions
+                    questions={suggestedQuestions}
+                    onSelect={handleSelectQuestion}
+                  />
+                </div>
+              </div>
             </div>
-            
-            <h3 className="text-2xl font-bold text-foreground mb-3 animate-fade-in">
-              AI Ứng dụng trong ngành Luật
-            </h3>
-            <p className="text-muted-foreground mb-8 max-w-lg text-base animate-fade-in">
-              Hãy tải lên tài liệu PDF và đặt câu hỏi. Tôi sẽ giúp bạn phân tích
-              và trả lời các thắc mắc pháp lý một cách nhanh chóng và chính xác.
-            </p>
-            <SuggestedQuestions
-              questions={suggestedQuestions}
-              onSelect={handleSelectQuestion}
-            />
           </div>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-4 max-w-4xl mx-auto">
             {messages.map((message) => (
               <ChatMessage
                 key={message.id}
@@ -120,9 +132,23 @@ const ChatArea = ({ conversation, onSendMessage }: ChatAreaProps) => {
         )}
       </div>
 
-      {/* Input Area */}
-      <div className="flex-shrink-0 px-6 py-4 border-t border-border/50 bg-card/30">
-        <ChatInput onSend={handleSendMessage} disabled={isTyping} />
+      {/* Input Area - Dưới cùng với avatar */}
+      <div className="flex-shrink-0 px-6 py-4 border-t border-border/50 bg-card/30 backdrop-blur-sm">
+        <div className="max-w-4xl mx-auto flex items-center gap-4">
+          {/* Avatar đại diện VK */}
+          <div className="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden ring-2 ring-primary/30 shadow-md">
+            <img 
+              src={legalAiHero} 
+              alt="Avatar VK" 
+              className="w-full h-full object-cover object-top"
+            />
+          </div>
+          
+          {/* Ô tìm kiếm */}
+          <div className="flex-1">
+            <ChatInput onSend={handleSendMessage} disabled={isTyping} />
+          </div>
+        </div>
       </div>
     </div>
   );
