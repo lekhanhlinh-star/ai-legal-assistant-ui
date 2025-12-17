@@ -5,6 +5,7 @@ import TypingIndicator from "./TypingIndicator";
 import SuggestedQuestions from "./SuggestedQuestions";
 import { Message, Conversation } from "@/types/chat";
 import legalAiHero from "@/assets/legal-ai-hero.png";
+import chatBackground from "@/assets/chat-background.jpg";
 import { Scale } from "lucide-react";
 
 const suggestedQuestions = [
@@ -68,17 +69,27 @@ const ChatArea = ({ conversation, onSendMessage }: ChatAreaProps) => {
   };
 
   return (
-    <div className="flex flex-col h-full bg-gradient-to-br from-background via-background to-muted/20 relative">
+    <div 
+      className="flex flex-col h-full relative"
+      style={{ 
+        backgroundImage: `url(${chatBackground})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}
+    >
+      {/* Overlay để làm mờ nhẹ nền */}
+      <div className="absolute inset-0 bg-background/60 backdrop-blur-[1px]" />
       {/* Logo góc phải trên */}
-      <div className="absolute top-4 right-6 z-20">
-        <div className="flex items-center gap-2 bg-primary/10 backdrop-blur-sm px-4 py-2 rounded-full border border-primary/20">
+      <div className="absolute top-4 right-6 z-30">
+        <div className="flex items-center gap-2 bg-background/80 backdrop-blur-sm px-4 py-2 rounded-full border border-primary/30 shadow-lg">
           <Scale className="h-5 w-5 text-primary" />
           <span className="text-sm font-semibold text-primary">Viện Kiểm Sát</span>
         </div>
       </div>
 
       {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto px-6 py-4">
+      <div className="flex-1 overflow-y-auto px-6 py-4 relative z-10">
         {messages.length === 0 ? (
           <div className="h-full flex flex-col items-center justify-center relative">
             <div className="w-full max-w-5xl mx-auto flex flex-col lg:flex-row items-center gap-8">
@@ -133,7 +144,7 @@ const ChatArea = ({ conversation, onSendMessage }: ChatAreaProps) => {
       </div>
 
       {/* Input Area - Dưới cùng với avatar */}
-      <div className="flex-shrink-0 px-6 py-4 border-t border-border/50 bg-card/30 backdrop-blur-sm">
+      <div className="flex-shrink-0 px-6 py-4 border-t border-border/50 bg-card/50 backdrop-blur-sm relative z-10">
         <div className="max-w-4xl mx-auto flex items-center gap-4">
           {/* Avatar đại diện VK */}
           <div className="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden ring-2 ring-primary/30 shadow-md">
