@@ -27,8 +27,8 @@ const DocumentCard = ({
       className={cn(
         "group relative p-4 rounded-xl border transition-all duration-200",
         isChecked
-          ? "bg-primary/5 border-primary/30 shadow-soft"
-          : "bg-card border-border/50 hover:border-accent/30 hover:shadow-soft"
+          ? "bg-cyan-500/10 border-cyan-500/30 shadow-lg shadow-cyan-500/10"
+          : "bg-slate-800/50 border-slate-700/50 hover:border-cyan-500/30 hover:bg-slate-800"
       )}
     >
       <div className="flex items-start gap-3">
@@ -37,28 +37,28 @@ const DocumentCard = ({
           <Checkbox
             checked={isChecked}
             onCheckedChange={(checked) => onCheckChange?.(checked === true)}
-            className="data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+            className="border-slate-600 data-[state=checked]:bg-cyan-500 data-[state=checked]:border-cyan-500"
           />
         </div>
 
         {/* Icon */}
-        <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-destructive/10 flex items-center justify-center">
-          <FileText className="w-5 h-5 text-destructive" />
+        <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-red-500/20 flex items-center justify-center">
+          <FileText className="w-5 h-5 text-red-400" />
         </div>
 
         {/* Info */}
         <div className="flex-1 min-w-0">
-          <h4 className="font-medium text-foreground truncate text-sm">
+          <h4 className="font-medium text-white truncate text-sm">
             {name}
           </h4>
-          <div className="flex items-center gap-3 mt-1.5 text-xs text-muted-foreground">
+          <div className="flex items-center gap-3 mt-1.5 text-xs text-slate-400">
             <span className="flex items-center gap-1">
               <FileIcon className="w-3.5 h-3.5" />
               {pages} trang
             </span>
             <span>{size}</span>
           </div>
-          <div className="flex items-center gap-1 mt-1 text-xs text-muted-foreground">
+          <div className="flex items-center gap-1 mt-1 text-xs text-slate-500">
             <Calendar className="w-3.5 h-3.5" />
             <span>{dateAdded}</span>
           </div>
@@ -69,14 +69,14 @@ const DocumentCard = ({
           <Button
             variant="ghost"
             size="icon"
-            className="h-8 w-8 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary"
+            className="h-8 w-8 rounded-lg text-slate-400 hover:text-white hover:bg-slate-700"
           >
             <Download className="w-4 h-4" />
           </Button>
           <Button
             variant="ghost"
             size="icon"
-            className="h-8 w-8 rounded-lg text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+            className="h-8 w-8 rounded-lg text-slate-400 hover:text-red-400 hover:bg-red-500/10"
             onClick={(e) => {
               e.stopPropagation();
               onDelete?.();

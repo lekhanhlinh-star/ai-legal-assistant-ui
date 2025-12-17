@@ -7,7 +7,6 @@ import {
   LogOut,
   ChevronLeft,
   ChevronRight,
-  Scale,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -16,6 +15,7 @@ import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
 import { Conversation } from "@/types/chat";
 import ConversationHistory from "./ConversationHistory";
+import logoVks from "@/assets/logo-vks.webp";
 
 interface SidebarItem {
   id: string;
@@ -68,12 +68,12 @@ const AppSidebar = ({
   return (
     <aside
       className={cn(
-        "h-full bg-sidebar border-r border-sidebar-border flex flex-col transition-all duration-300",
+        "h-full bg-slate-900 border-r border-slate-700/50 flex flex-col transition-all duration-300",
         isCollapsed ? "w-20" : "w-72"
       )}
     >
       {/* Header */}
-      <div className="flex-shrink-0 p-4 border-b border-sidebar-border">
+      <div className="flex-shrink-0 p-4 border-b border-slate-700/50">
         <div className="flex items-center justify-between">
           <div
             className={cn(
@@ -81,21 +81,21 @@ const AppSidebar = ({
               isCollapsed && "opacity-0"
             )}
           >
-            <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-              <Scale className="w-5 h-5 text-primary" />
+            <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center p-1">
+              <img src={logoVks} alt="Logo VKS" className="w-full h-full object-contain" />
             </div>
             <div className="overflow-hidden">
-              <h1 className="font-bold text-sidebar-foreground text-sm whitespace-nowrap">
+              <h1 className="font-bold text-white text-sm whitespace-nowrap">
                 Trợ Lý Pháp Lý AI
               </h1>
-              <p className="text-xs text-muted-foreground">Phiên bản 1.0</p>
+              <p className="text-xs text-slate-400">Phiên bản 1.0</p>
             </div>
           </div>
           <Button
             variant="ghost"
             size="icon"
             onClick={() => setIsCollapsed(!isCollapsed)}
-            className="h-8 w-8 rounded-lg text-muted-foreground hover:text-sidebar-foreground hover:bg-sidebar-accent flex-shrink-0"
+            className="h-8 w-8 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 flex-shrink-0"
           >
             {isCollapsed ? (
               <ChevronRight className="w-4 h-4" />
@@ -110,22 +110,22 @@ const AppSidebar = ({
       <div className="p-4">
         <div
           className={cn(
-            "flex items-center gap-3 p-3 rounded-xl bg-sidebar-accent/50 transition-all",
+            "flex items-center gap-3 p-3 rounded-xl bg-slate-800/50 border border-slate-700/50 transition-all",
             isCollapsed && "justify-center p-2"
           )}
         >
-          <Avatar className="h-10 w-10 flex-shrink-0">
+          <Avatar className="h-10 w-10 flex-shrink-0 ring-2 ring-cyan-500/30">
             <AvatarImage src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" />
-            <AvatarFallback className="bg-primary text-primary-foreground">
+            <AvatarFallback className="bg-cyan-600 text-white">
               NV
             </AvatarFallback>
           </Avatar>
           {!isCollapsed && (
             <div className="overflow-hidden">
-              <p className="font-medium text-sidebar-foreground text-sm truncate">
+              <p className="font-medium text-white text-sm truncate">
                 Nguyễn Văn A
               </p>
-              <p className="text-xs text-muted-foreground truncate">
+              <p className="text-xs text-slate-400 truncate">
                 admin@example.com
               </p>
             </div>
@@ -138,7 +138,7 @@ const AppSidebar = ({
         <Button
           onClick={handleNewConversation}
           className={cn(
-            "w-full bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl gap-2 justify-start transition-all",
+            "w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white rounded-xl gap-2 justify-start transition-all shadow-lg shadow-cyan-500/20",
             isCollapsed && "justify-center px-0"
           )}
         >
@@ -159,8 +159,8 @@ const AppSidebar = ({
                 "w-full justify-start gap-3 rounded-xl transition-all h-11",
                 isCollapsed && "justify-center px-0",
                 activeTab === item.id
-                  ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium"
-                  : "text-muted-foreground hover:text-sidebar-foreground hover:bg-sidebar-accent/50"
+                  ? "bg-cyan-500/10 text-cyan-400 font-medium border border-cyan-500/20"
+                  : "text-slate-400 hover:text-white hover:bg-slate-800"
               )}
             >
               <item.icon className="w-5 h-5 flex-shrink-0" />
@@ -172,6 +172,9 @@ const AppSidebar = ({
 
       {/* Conversation History */}
       <div className="flex-1 overflow-hidden px-4 pb-4">
+        {!isCollapsed && (
+          <p className="text-xs text-slate-500 mb-2 px-1">Lịch sử trò chuyện</p>
+        )}
         <ScrollArea className="h-full">
           <ConversationHistory
             conversations={conversations}
@@ -184,12 +187,12 @@ const AppSidebar = ({
       </div>
 
       {/* Footer */}
-      <div className="flex-shrink-0 p-4 border-t border-sidebar-border">
+      <div className="flex-shrink-0 p-4 border-t border-slate-700/50">
         <Button
           variant="ghost"
           onClick={handleLogout}
           className={cn(
-            "w-full justify-start gap-3 rounded-xl text-muted-foreground hover:text-destructive hover:bg-destructive/10 h-11 transition-all",
+            "w-full justify-start gap-3 rounded-xl text-slate-400 hover:text-red-400 hover:bg-red-500/10 h-11 transition-all",
             isCollapsed && "justify-center px-0"
           )}
         >
