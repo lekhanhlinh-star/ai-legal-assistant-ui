@@ -5,6 +5,11 @@ import DocumentList from "@/components/documents/DocumentList";
 import SettingsPanel from "@/components/settings/SettingsPanel";
 import { useConversations } from "@/hooks/useConversations";
 import { Message, Document } from "@/types/chat";
+import {
+  ResizablePanelGroup,
+  ResizablePanel,
+  ResizableHandle,
+} from "@/components/ui/resizable";
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState("chat");
@@ -71,19 +76,31 @@ const Index = () => {
         onNewConversation={createNewConversation}
       />
 
-      {/* Main Content Area */}
+      {/* Main Content Area with Resizable Panels */}
       <main className="flex-1 flex overflow-hidden">
-        {/* Content Panel */}
-        <div className="flex-1 overflow-hidden">{renderContent()}</div>
+        {activeTab === "chat" ? (
+          <ResizablePanelGroup direction="horizontal" className="h-full">
+            {/* Chat Panel */}
+            <ResizablePanel defaultSize={70} minSize={40}>
+              {renderContent()}
+            </ResizablePanel>
 
-        {/* Document Panel (visible when chat is active) */}
-        {activeTab === "chat" && (
-          <div className="hidden lg:block w-80 xl:w-96 border-l border-border/50 overflow-hidden">
-            <DocumentList
-              documents={currentDocuments}
-              onDocumentsChange={handleDocumentsChange}
+            {/* Resizable Handle */}
+            <ResizableHandle 
+              withHandle 
+              className="bg-slate-700/50 hover:bg-cyan-500/30 transition-colors data-[resize-handle-active]:bg-cyan-500/50" 
             />
-          </div>
+
+            {/* Document Panel */}
+            <ResizablePanel defaultSize={30} minSize={20} className="hidden lg:block">
+              <DocumentList
+                documents={currentDocuments}
+                onDocumentsChange={handleDocumentsChange}
+              />
+            </ResizablePanel>
+          </ResizablePanelGroup>
+        ) : (
+          <div className="flex-1 overflow-hidden">{renderContent()}</div>
         )}
       </main>
     </div>

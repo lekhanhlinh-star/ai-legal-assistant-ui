@@ -87,7 +87,7 @@ const ChatArea = ({ conversation, onSendMessage }: ChatAreaProps) => {
       {/* Logo Viện Kiểm Sát góc phải trên */}
       <div className="absolute top-4 right-6 z-30">
         <div className="flex items-center gap-3 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20 shadow-lg">
-          <img src={logoVks} alt="Logo Viện Kiểm Sát" className="h-8 w-8 object-contain" />
+          <img src={logoVks} alt="Logo Viện Kiểm Sát" className="h-10 object-contain" />
           <span className="text-sm font-semibold text-white">Viện Kiểm Sát</span>
         </div>
       </div>
